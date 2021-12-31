@@ -1,7 +1,9 @@
 # Material Snackbar
 
 This is a single js file you drop into a webpage to use material snackbars.
+
 Works on mobile and desktop
+
 The snackbar has four properties:
 |key|data type|
 |--|--|
