@@ -33,6 +33,7 @@
   pointer-events: none;
   bottom: 0;
   transition: transform 0.5s;
+  font-family: sans-serif, "Roboto";
 }
 #mSnackbarContainer .snackbar-wrapper {
   overflow: hidden;

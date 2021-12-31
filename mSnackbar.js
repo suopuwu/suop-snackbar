@@ -1,7 +1,7 @@
 $(function () {
   var snackbars = {};
   //this adds the styles in so you only have to use one file for the snackbars.
-  const css = `<style>#mSnackbarContainer .mSnackbar .mSnackbar-action,#mSnackbarContainer .mSnackbar .mSnackbar-close-button{cursor:pointer;position:relative}#mSnackbarContainer .mSnackbar .mSnackbar-action::after,#mSnackbarContainer .mSnackbar .mSnackbar-close-button::after{transition:all .2s;position:absolute;content:"";width:100%;height:100%;right:0;top:0;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}#mSnackbarContainer .mSnackbar .mSnackbar-action:hover::after,#mSnackbarContainer .mSnackbar .mSnackbar-close-button:hover::after{background-color:#ffffff13}#mSnackbarContainer .mSnackbar .mSnackbar-action:active::after,#mSnackbarContainer .mSnackbar .mSnackbar-close-button:active::after{background-color:#ffffff3c}#mSnackbarContainer{display:flex;flex-flow:column nowrap;align-items:flex-end;z-index:1000;position:fixed;right:20px;overflow:hidden;pointer-events:none;bottom:0;transition:transform .5s}#mSnackbarContainer .snackbar-wrapper{overflow:hidden}#mSnackbarContainer .mSnackbar{display:flex;flex-flow:row nowrap;align-items:center;pointer-events:all;line-height:22px;padding:14px 14px 14px 24px;background-color:#323232;color:#dedede;font-size:14px;z-index:100;min-width:288px;max-width:568px;border-radius:4px;margin-bottom:20px;box-shadow:0 3px 5px -1px rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;transition:all .2s ease-in-out}@media(orientation:portrait){#mSnackbarContainer .mSnackbar{max-width:100%;margin:0}}#mSnackbarContainer .mSnackbar .mSnackbar-close-button{height:24px;width:24px;margin-left:12px}#mSnackbarContainer .mSnackbar .mSnackbar-close-button::after{border-radius:100%;width:40px;height:40px}#mSnackbarContainer .mSnackbar .mSnackbar-action{margin:0 7.5px 0 11.5px;font-weight:bold}#mSnackbarContainer .mSnackbar .mSnackbar-action::after{width:calc(100% + 15px);height:calc(100% + 15px);border-radius:4px}#mSnackbarContainer .mSnackbar span:first-of-type{margin:0 7.5px 0 19.5px}#mSnackbarContainer .mSnackbar .mSnackbar-flex-grow-spacer{flex-grow:1}@media(orientation:portrait){#mSnackbarContainer{right:0}}.no-transition{transition:none !important}</style>`;
+  const css = `<style>#mSnackbarContainer .mSnackbar .mSnackbar-action, #mSnackbarContainer .mSnackbar .mSnackbar-close-button {cursor: pointer;position: relative;}#mSnackbarContainer .mSnackbar .mSnackbar-action::after, #mSnackbarContainer .mSnackbar .mSnackbar-close-button::after {transition: all 0.2s;position: absolute;content: "";width: 100%;height: 100%;right: 0;top: 0;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);}#mSnackbarContainer .mSnackbar .mSnackbar-action:hover::after, #mSnackbarContainer .mSnackbar .mSnackbar-close-button:hover::after {background-color: #ffffff13;}#mSnackbarContainer .mSnackbar .mSnackbar-action:active::after, #mSnackbarContainer .mSnackbar .mSnackbar-close-button:active::after {background-color: #ffffff3c;}#mSnackbarContainer {display: flex;flex-flow: column nowrap;align-items: flex-end;z-index: 1000;position: fixed;right: 20px;overflow: hidden;pointer-events: none;bottom: 0;transition: transform 0.5s;font-family: sans-serif, "Roboto";}#mSnackbarContainer .snackbar-wrapper {overflow: hidden;}#mSnackbarContainer .mSnackbar {display: flex;flex-flow: row nowrap;align-items: center;pointer-events: all;line-height: 22px;padding: 14px 14px 14px 24px;background-color: #323232;color: #DEDEDE;font-size: 14px;z-index: 100;min-width: 288px;max-width: 568px;border-radius: 4px;margin-bottom: 20px;box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;transition: all 0.2s ease-in-out;}@media (orientation: portrait) {#mSnackbarContainer .mSnackbar {max-width: 100%;margin: 0;}}#mSnackbarContainer .mSnackbar .mSnackbar-close-button {height: 24px;width: 24px;margin-left: 12px;}#mSnackbarContainer .mSnackbar .mSnackbar-close-button::after {border-radius: 100%;width: 40px;height: 40px;}#mSnackbarContainer .mSnackbar .mSnackbar-action {margin: 0 7.5px 0 11.5px;font-weight: bold;}#mSnackbarContainer .mSnackbar .mSnackbar-action::after {width: calc(100% + 15px);height: calc(100% + 15px);border-radius: 4px;}#mSnackbarContainer .mSnackbar span:first-of-type {margin: 0 7.5px 0 19.5px;}#mSnackbarContainer .mSnackbar .mSnackbar-flex-grow-spacer {flex-grow: 1;}@media (orientation: portrait) {#mSnackbarContainer {right: 0;}}.no-transition {transition: none !important;}/*# sourceMappingURL=mSnackBar.css.map */</style>`;
   $('body').append(css)
     .append('<div id="mSnackbarContainer"></div>');
   var snackbarContainer = $('#mSnackbarContainer');
@@ -16,12 +16,12 @@ $(function () {
   class Snackbar {
     constructor({
       text,
-      lifeSpan,
+      lifespan,
       actions,
       noCloseButton: noCloseButton
     } = {}) {
-      this.text = text;
-      this.lifeSpan = lifeSpan;
+      this._text = text;
+      this.lifespan = lifespan;
       this.hasCloseButton = false;
       if (!actions) {
         actions = [];
@@ -30,8 +30,8 @@ $(function () {
       if (noCloseButton) {
         this.noCloseButton = noCloseButton;
       }
-      if (!lifeSpan) {
-        this.lifeSpan = 3000;
+      if (!lifespan) {
+        this.lifespan = 3000;
       }
       //iterator ensures that all ids are (probably) unique
       this.id = 'mSnackbar' + mSnackbarIterator();
@@ -64,7 +64,7 @@ $(function () {
         }
         return actionsHtml.join('');
       }
-
+      //todo add option for bottom offset to make the snackbar not cover important ui.
       //adds the new snackbar to the dom.
       snackbarContainer.append(`
       <span id="${this.id}" class="snackbar-wrapper">
@@ -86,8 +86,8 @@ $(function () {
         //making an anonymous function allows this to refer to the snackbar.
         this.close();
       });
-      if (this.lifeSpan !== Infinity) {
-        this.timeout = setTimeout(() => this.close(), this.lifeSpan);
+      if (this.lifespan !== Infinity) {
+        this.timeout = setTimeout(() => this.close(), this.lifespan);
       }
     }
 
@@ -126,19 +126,26 @@ $(function () {
         delete snackbars[this.id];
       }
     }
+    get text() {
+      return this._text;
+    }
+    set text(newText) {
+      this._text = newText;
+      this.$ref.find('.mSnackbar-content').html(newText);
+    }
   }
 
   $.mSnackbar = {
     add: function () {
       return function ({
         text,
-        lifeSpan,
+        lifespan,
         actions,
         noCloseButton
       } = {}) {
 
         var newSnackbar = new Snackbar({
-          lifeSpan: lifeSpan,
+          lifespan: lifespan,
           text: text,
           actions: actions,
           noCloseButton: noCloseButton
@@ -148,7 +155,7 @@ $(function () {
         snackbarContainer.css('bottom', -snackbarContainer.height());
         snackbarContainer.css('transform', `translateY(${-snackbarContainer.height()}px)`);
         //returns the newly added snackbar so the developer can call close() like so:
-        //var example = $.mSnackbar();
+        //var example = $.mSnackbar.add();
         //example.close();
         return snackbars[newSnackbar.id];
       };
