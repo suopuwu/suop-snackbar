@@ -20,6 +20,7 @@ An action is an object that has  three properties
 |onClick|function|
 
 ## Usage
+To install it, just drop mSnackbar.js into your project after jquery.
 #### Add a snackbar, with all options used
 ```
 $.mSnackbar.add({
