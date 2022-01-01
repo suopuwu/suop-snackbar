@@ -22,6 +22,10 @@
   background-color: #ffffff3c;
 }
 
+.mSnackbar-content > i {
+  font-style: normal;
+}
+
 #mSnackbarContainer {
   display: flex;
   flex-flow: column nowrap;
