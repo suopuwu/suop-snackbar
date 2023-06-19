@@ -143,7 +143,7 @@ class Snackbar {
   }
   set text(newText) {
     this._text = newText
-    this.$ref.find(".mSnackbar-content").html(newText)
+    this.node.querySelector(".mSnackbar-content").innerHTML = newText
   }
 }
 
@@ -207,7 +207,7 @@ var suopSnackbar = {
     //returns the newly added snackbar so the developer can call close() like so:
     //var example = $.mSnackbar.add();
     //example.close();
-    return this.snackbars[newSnackbar.id]
+    return this.snackbars.get(newSnackbar.id)
   },
   list: () => this.snackbars,
   initialized: false,
