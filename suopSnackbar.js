@@ -6,17 +6,14 @@ class Snackbar {
     return this._iterator - 1
   }
 
-  constructor(text = "", lifespan = 3000, actions = [], noCloseButton = true) {
+  constructor(text = "", lifespan = 3000, actions = [], noCloseButton = false) {
     this.snackbarContainer = document.getElementById("mSnackbarContainer")
     this._text = text
     this.lifespan = lifespan
-    this.hasCloseButton = false
+    this.noCloseButton = noCloseButton
+
     if (!actions) {
       actions = []
-    }
-
-    if (noCloseButton) {
-      this.noCloseButton = noCloseButton
     }
     if (!lifespan) {
       this.lifespan = 3000
@@ -185,19 +182,28 @@ var suopSnackbar = {
     }
   },
 
-  add: function ({ text, lifespan, actions, noCloseButton } = {}) {
+  add: function (text, lifespan, actions, noCloseButton) {
+    this.init()
     var container = document.getElementById("mSnackbarContainer")
-    var newSnackbar = new Snackbar({
-      lifespan: lifespan,
-      text: text,
-      actions: actions,
-      noCloseButton: noCloseButton,
-    })
+    var newSnackbar = new Snackbar(text, lifespan, actions, noCloseButton)
     this.snackbars.set(newSnackbar.id, newSnackbar)
     //animates the snackbar container to reveal the new snackbar.
-    container.style.bottom = -container.clientHeight
-    ;(container.style.transform = "transform"),
-      `translateY(${-container.clientHeight}px)`
+    container.animate(
+      [
+        {
+          translate: "0 " + newSnackbar.node.clientHeight + "px",
+        },
+        {
+          translate: "0 0",
+        },
+      ],
+      {
+        duration: 200,
+        easing: "cubic-bezier(0.25, 0.1, 0.25, 1.0)",
+        fill: "forwards",
+      }
+    )
+
     //returns the newly added snackbar so the developer can call close() like so:
     //var example = $.mSnackbar.add();
     //example.close();
