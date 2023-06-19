@@ -5,53 +5,28 @@ class Snackbar {
     this._iterator++
     return this._iterator - 1
   }
-
-  constructor(text = "", lifespan = 3000, actions = [], noCloseButton = false) {
+  actions
+  constructor(
+    text = "",
+    lifespan = 3000,
+    actionsList = [],
+    noCloseButton = false
+  ) {
+    this.actions = new Map()
+    for (let action of actionsList) {
+      this.actions.set(action.text, action)
+    }
     this.snackbarContainer = document.getElementById("mSnackbarContainer")
     this._text = text
     this.lifespan = lifespan
     this.noCloseButton = noCloseButton
 
-    if (!actions) {
-      actions = []
-    }
     if (!lifespan) {
       this.lifespan = 3000
     }
     //iterator ensures that all ids are (probably) unique
     this.id = "mSnackbar" + this.constructor.iterator
-    var delayedActionHandlers = []
 
-    function createSnackbarActions() {
-      //array to concatenate the html of the various actions.
-      var actionsHtml = []
-      for (let action of actions) {
-        var idValue = Snackbar.iterator
-        var actionId = `snackbarAction${idValue}`
-        action.id = actionId
-        //uses #rrggbbaa for colors.
-        actionsHtml.push(`
-          <style> 
-            #${actionId} {
-              color: ${action.color}
-            }
-            #${actionId}:hover::after {
-              background-color: ${action.color}13 !important;
-            }
-            #${actionId}:active::after {
-              background-color: ${action.color}3c !important;
-              
-            }
-            </style>
-          <span class="mSnackbar-action" id="${actionId}">${action.text}</span>
-          `)
-        delayedActionHandlers.push({
-          id: actionId,
-          callback: action.onClick,
-        })
-      }
-      return actionsHtml.join("")
-    }
     //todo add option for bottom offset to make the snackbar not cover important ui.
     //adds the new snackbar to the dom.
     this.node = document.createElement("span")
@@ -64,7 +39,7 @@ class Snackbar {
             ${text}
           </div>
           <div class="mSnackbar-flex-grow-spacer"></div>
-          ${createSnackbarActions()}
+          <span class="snackbar-actions"></span>
           ${
             !this.noCloseButton
               ? `
@@ -73,18 +48,52 @@ class Snackbar {
               : ""
           }
         </div>
-    `
-    this.node.addEventListener("click", (e) => {
+        `
+
+    this.renderActions()
+    this.node.onclick = (e) => {
       if (e.target.classList.contains("mSnackbar-close-button")) this.close()
-    })
-    for (let action of delayedActionHandlers) {
-      document.getElementById(action.id).addEventListener("click", () => {
-        action.callback()
-      })
     }
+
     if (this.lifespan !== Infinity) {
       this.timeout = setTimeout(() => this.close(), this.lifespan)
     }
+  }
+
+  renderActions() {
+    const actionsContainer = this.node.querySelector(".snackbar-actions")
+    actionsContainer.innerHTML = ""
+    for (let [key, action] of this.actions) {
+      var actionNode = document.createElement("span")
+      actionNode.onclick = action.onClick
+      var actionId = "snackbar-action-" + Snackbar.iterator
+      actionNode.innerHTML = `
+                      <style> 
+                        #${actionId} {
+                          color: ${action.color}
+                        }
+                        #${actionId}:hover::after {
+                          background-color: ${action.color}13 !important;
+                        }
+                        #${actionId}:active::after {
+                          background-color: ${action.color}3c !important;
+              
+                        }
+                        </style>
+                      <span class="mSnackbar-action" id="${actionId}">${action.text}</span>
+                      `
+      actionsContainer.append(actionNode)
+    }
+  }
+
+  setAction(action) {
+    this.actions.set(action.text, action)
+    this.renderActions()
+  }
+
+  removeAction(actionText) {
+    this.actions.delete(actionText)
+    this.renderActions()
   }
 
   close() {
@@ -148,7 +157,7 @@ class Snackbar {
 }
 
 class SuopSnackbarAction {
-  text
+  text //must be unique per snackbar
   color
   onClick
   constructor(
