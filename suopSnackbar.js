@@ -6,7 +6,7 @@ class Snackbar {
     return this._iterator - 1
   }
 
-  constructor({ text, lifespan, actions, noCloseButton: noCloseButton } = {}) {
+  constructor(text = "", lifespan = 3000, actions = [], noCloseButton = true) {
     this.snackbarContainer = document.getElementById("mSnackbarContainer")
     this._text = text
     this.lifespan = lifespan
