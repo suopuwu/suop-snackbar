@@ -61,7 +61,6 @@ class Snackbar {
     this.node.id = this.id
     this.node.classList.add("snackbar-wrapper")
     this.snackbarContainer.append(this.node)
-    console.log(this.node)
     this.node.innerHTML = `
         <div class="mSnackbar">
           <div class="mSnackbar-content">
@@ -98,7 +97,6 @@ class Snackbar {
 
     //if there are multiple snackbars currently, fade the closed snackbar out then animate its height to zero.
     if (suopSnackbar.snackbars.size > 1) {
-      console.log("multiple")
       this.node.animate(
         [
           {
@@ -159,7 +157,7 @@ class SuopSnackbarAction {
   constructor(
     text = "action",
     onClick = function () {
-      console.log("action presed")
+      console.log("action presed, make sure to add something here")
     },
     color = "#F44336"
   ) {
@@ -183,7 +181,6 @@ var suopSnackbar = {
       snackbarContainer = document.createElement("div")
       snackbarContainer.id = "mSnackbarContainer"
       document.querySelector("body").append(snackbarContainer)
-      console.log("msnackbar loaded")
       this.initialized = true
     }
   },
