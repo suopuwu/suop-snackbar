@@ -16,10 +16,10 @@
   transform: translate(-50%, -50%);
 }
 #mSnackbarContainer .mSnackbar .mSnackbar-action:hover::after, #mSnackbarContainer .mSnackbar .mSnackbar-close-button:hover::after {
-  background-color: #ffffff13;
+  background-color: rgba(255, 255, 255, 0.0745098039);
 }
 #mSnackbarContainer .mSnackbar .mSnackbar-action:active::after, #mSnackbarContainer .mSnackbar .mSnackbar-close-button:active::after {
-  background-color: #ffffff3c;
+  background-color: rgba(255, 255, 255, 0.2352941176);
 }
 
 .mSnackbar-content > i {
@@ -60,7 +60,6 @@
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
   transition: all 0.2s ease-in-out;
 }
@@ -103,4 +102,4 @@
 
 .no-transition {
   transition: none !important;
-}/*# sourceMappingURL=mSnackBar.css.map */
+}/*# sourceMappingURL=suopSnackbar.css.map */
